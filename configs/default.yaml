@@ -1,0 +1,41 @@
+# default config for the LDA pipeline
+seed: 42
+
+data:
+  source: 20newsgroups   # one of: 20newsgroups, ag_news (later)
+  subset: train
+  remove: ["headers", "footers", "quotes"]
+
+preprocess:
+  min_token_len: 3
+  lowercase: true
+  drop_stopwords: true
+  use_lemma: true
+  ngrams:
+    bigrams: true
+    trigrams: false
+    min_count: 20
+    threshold: 50
+
+lda:
+  num_topics: 10
+  passes: 10
+  iterations: 50
+  alpha: auto
+  eta: auto
+  random_state: 42
+  workers: 3
+
+coherence:
+  metric: c_v
+  k_min: 5
+  k_max: 25
+  k_step: 5
+
+paths:
+  artifacts_dir: artifacts
+  model_path: artifacts/lda.model
+  dictionary_path: artifacts/dict.gensim
+  vis_html: artifacts/lda_vis.html
+</content>
+</invoke>
