@@ -2,6 +2,7 @@
 import re
 
 import spacy
+from gensim.models.phrases import Phrases, Phraser
 from nltk.corpus import stopwords
 
 
@@ -41,5 +42,16 @@ def tokenize(text, min_token_len=3, allowed_pos=("NOUN", "ADJ", "VERB", "ADV")):
             continue
         out.append(lemma)
     return out
+
+
+def add_bigrams(token_lists, min_count=20, threshold=50):
+    """Train a gensim Phrases model on token_lists, return bigrammed lists.
+
+    Note: this is fitted on whatever you pass in. For trigrams, call again
+    on the bigrammed output.
+    """
+    phrases = Phrases(token_lists, min_count=min_count, threshold=threshold)
+    bigram = Phraser(phrases)
+    return [bigram[toks] for toks in token_lists]
 </content>
 </invoke>
