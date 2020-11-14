@@ -26,10 +26,23 @@ def basic_clean(text):
     return text.strip().lower()
 
 
-def tokenize(text, min_token_len=3, allowed_pos=("NOUN", "ADJ", "VERB", "ADV")):
+EXTRA_STOPWORDS = {
+    # newsgroup boilerplate that survives header stripping
+    "say", "would", "could", "get", "go", "know", "think", "make", "want",
+    "thing", "people", "way", "lot", "use", "well", "much", "even", "also",
+    "really", "actually", "maybe", "sure", "subject", "line", "writes",
+    "edu", "com", "org", "article", "post", "newsgroup",
+}
+
+
+def tokenize(text, min_token_len=3, allowed_pos=("NOUN", "ADJ", "VERB", "ADV"),
+             extra_stopwords=None):
     """spacy tokenize -> lemma, drop stopwords + short tokens."""
     text = basic_clean(text)
     sw = set(stopwords.words("english"))
+    sw.update(EXTRA_STOPWORDS)
+    if extra_stopwords:
+        sw.update(extra_stopwords)
     doc = get_nlp()(text)
     out = []
     for tok in doc:
@@ -39,6 +52,8 @@ def tokenize(text, min_token_len=3, allowed_pos=("NOUN", "ADJ", "VERB", "ADV")):
             continue
         lemma = tok.lemma_.strip().lower()
         if len(lemma) < min_token_len or lemma in sw:
+            continue
+        if not lemma.isalpha():
             continue
         out.append(lemma)
     return out
