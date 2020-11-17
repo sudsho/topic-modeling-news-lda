@@ -4,7 +4,7 @@ install:
 	bash setup.sh
 
 train:
-	python -m src.lda --config configs/default.yaml
+	python -m src.train --config configs/default.yaml
 
 vis:
 	python -m src.visualize --config configs/default.yaml --out artifacts/lda_vis.html
