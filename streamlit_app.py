@@ -55,6 +55,25 @@ def main():
         sweep = pd.DataFrame(blob["sweep"], columns=["k", "coherence"])
         st.line_chart(sweep.set_index("k"))
 
+    st.subheader("Document explorer")
+    samples_path = "data/samples/posts.json"
+    if os.path.exists(samples_path):
+        with open(samples_path) as f:
+            samples = json.load(f)
+        choice = st.selectbox(
+            "pick a sample post",
+            ["(none)"] + ["%d. %s" % (i, s["label"]) for i, s in enumerate(samples)],
+        )
+        if choice != "(none)":
+            i = int(choice.split(".", 1)[0])
+            sample = samples[i]
+            st.markdown("**label**: `%s`" % sample["label"])
+            st.write(sample["text"])
+            out = predict_topics(sample["text"], lda, dictionary)
+            rows = [{"topic": t, "prob": round(p, 3)} for t, p in out]
+            st.write("predicted topics:")
+            st.table(pd.DataFrame(rows))
+
     st.subheader("Try a new document")
     text = st.text_area("paste some text", height=200)
     if text:

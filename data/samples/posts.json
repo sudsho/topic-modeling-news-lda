@@ -1,0 +1,24 @@
+[
+  {
+    "label": "rec.sport.hockey",
+    "text": "What did people think of the Penguins game last night? Lemieux looked sharp on that breakaway. The defense was a mess in the third period though, gave up two soft goals."
+  },
+  {
+    "label": "comp.sys.mac.hardware",
+    "text": "Has anyone gotten the new system extension working on a Quadra 700? I keep getting a Type 11 error at boot. Reset PRAM, zapped, reinstalled the OS, nothing helps."
+  },
+  {
+    "label": "sci.space",
+    "text": "There's a piece in this week's Science about the proposed Mars sample return mission. Cost estimates are still in the billions. Worth it for the planetary geology, but the launch window is tight."
+  },
+  {
+    "label": "talk.politics.guns",
+    "text": "The amendment debate keeps coming back to whether the militia clause is a limit. The Federalist Papers don't really settle it either way; reasonable people read them differently."
+  },
+  {
+    "label": "rec.autos",
+    "text": "Looking at a used 1989 Civic with 80k miles. The timing belt has been replaced once. Engine sounds clean. Anything specific I should check before buying?"
+  }
+]
+</content>
+</invoke>
