@@ -14,8 +14,13 @@ log = logging.getLogger(__name__)
 
 
 def coherence_sweep(token_lists, k_min=5, k_max=25, k_step=5,
-                    metric="c_v", passes=5, iterations=50, random_state=42):
-    """run train+score over a range of k. returns list of (k, score)."""
+                    metric="c_v", passes=5, iterations=50, random_state=42,
+                    workers=None):
+    """run train+score over a range of k. returns list of (k, score).
+
+    workers > 1 uses LdaMulticore which is faster but uses symmetric alpha.
+    Leave at None for single-core LdaModel (lets us keep alpha='auto').
+    """
     out = []
     for k in range(k_min, k_max + 1, k_step):
         log.info("training k=%d", k)
@@ -24,6 +29,7 @@ def coherence_sweep(token_lists, k_min=5, k_max=25, k_step=5,
             num_topics=k,
             passes=passes,
             iterations=iterations,
+            workers=workers,
             random_state=random_state,
         )
         cm = CoherenceModel(
