@@ -4,6 +4,7 @@ import json
 import logging
 import os
 
+from . import cache
 from .coherence import coherence_sweep
 from .corpus import to_bow
 from .lda import save, train_lda
@@ -22,15 +23,24 @@ def run(cfg):
     )
     log.info("got %d docs", len(docs))
 
-    log.info("tokenizing")
-    toks = [tokenize(d, min_token_len=cfg["preprocess"]["min_token_len"]) for d in docs]
-
-    if cfg["preprocess"]["ngrams"]["bigrams"]:
-        toks = add_bigrams(
-            toks,
-            min_count=cfg["preprocess"]["ngrams"]["min_count"],
-            threshold=cfg["preprocess"]["ngrams"]["threshold"],
-        )
+    ensure_dir(cfg["paths"]["artifacts_dir"])
+    key = cache.cache_key(cfg["data"], cfg["preprocess"])
+    cache_path = os.path.join(cfg["paths"]["artifacts_dir"], "tokens-%s.pkl" % key)
+    cached = cache.get(cache_path)
+    if cached is not None:
+        log.info("using cached tokens %s", cache_path)
+        toks = cached
+    else:
+        log.info("tokenizing (no cache)")
+        toks = [tokenize(d, min_token_len=cfg["preprocess"]["min_token_len"]) for d in docs]
+        if cfg["preprocess"]["ngrams"]["bigrams"]:
+            toks = add_bigrams(
+                toks,
+                min_count=cfg["preprocess"]["ngrams"]["min_count"],
+                threshold=cfg["preprocess"]["ngrams"]["threshold"],
+            )
+        cache.put(cache_path, toks)
+        log.info("cached -> %s", cache_path)
 
     log.info("coherence sweep")
     sweep = coherence_sweep(
@@ -46,7 +56,6 @@ def run(cfg):
     best_k, best_score = max(sweep, key=lambda kv: kv[1])
     log.info("best k=%d coherence=%.4f", best_k, best_score)
 
-    ensure_dir(cfg["paths"]["artifacts_dir"])
     sweep_out = os.path.join(cfg["paths"]["artifacts_dir"], "coherence.json")
     with open(sweep_out, "w") as f:
         json.dump({"sweep": sweep, "best_k": best_k}, f, indent=2)
