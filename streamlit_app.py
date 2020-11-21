@@ -11,6 +11,7 @@ import streamlit as st
 
 from src.lda import load
 from src.predict import predict_topics
+from src.topics import all_labels, short_label
 from src.util import load_config
 
 
@@ -39,10 +40,13 @@ def main():
 
     sidebar = st.sidebar
     sidebar.header("Topic")
-    tid = sidebar.selectbox("topic id", list(range(num_topics)))
+    labels = all_labels(lda, n=3)
+    options = ["%d: %s" % (i, lab) for i, lab in enumerate(labels)]
+    selected = sidebar.selectbox("topic", options)
+    tid = int(selected.split(":", 1)[0])
     top_n = sidebar.slider("top words", 5, 30, 12)
 
-    st.subheader("Top words for topic %d" % tid)
+    st.subheader("Topic %d (%s)" % (tid, short_label(lda, tid, n=3)))
     pairs = lda.show_topic(tid, topn=top_n)
     df = pd.DataFrame(pairs, columns=["word", "weight"])
     st.bar_chart(df.set_index("word"))
