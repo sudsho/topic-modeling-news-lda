@@ -20,7 +20,9 @@ DOCS = [
 
 @pytest.mark.slow
 def test_train_lda_returns_model():
-    lda, dictionary, corpus = train_lda(DOCS, num_topics=3, passes=2, iterations=10)
+    lda, dictionary, corpus = train_lda(
+        DOCS, num_topics=3, passes=2, iterations=10, random_state=0,
+    )
     assert lda.num_topics == 3
     assert len(corpus) == len(DOCS)
     # every topic should have at least 1 word
@@ -30,7 +32,9 @@ def test_train_lda_returns_model():
 
 @pytest.mark.slow
 def test_all_labels_length():
-    lda, _, _ = train_lda(DOCS, num_topics=2, passes=1, iterations=5)
+    lda, _, _ = train_lda(
+        DOCS, num_topics=2, passes=1, iterations=5, random_state=0,
+    )
     labels = all_labels(lda, n=2)
     assert len(labels) == 2
     assert all("/" in lab for lab in labels)
