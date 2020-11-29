@@ -17,3 +17,16 @@ data/raw/
 data/processed/
 mlruns/
 wandb/
+
+# trained model + viz outputs
+artifacts/*.model
+artifacts/*.gensim
+artifacts/*.gensim.expElogbeta.npy
+artifacts/*.gensim.id2word
+artifacts/*.gensim.state
+artifacts/lda_vis.html
+artifacts/coherence.json
+artifacts/tokens-*.pkl
+
+# streamlit/heroku
+.streamlit/secrets.toml

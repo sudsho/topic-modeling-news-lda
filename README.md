@@ -92,6 +92,16 @@ stable across retrains):
 
 Run `make vis` and open `artifacts/lda_vis.html` for the full pyLDAvis view.
 
+### screenshots
+
+`artifacts/screenshots/` holds a couple of png exports from the Streamlit app
+(topic-words bar chart, coherence-vs-k curve). They are checked in so the
+README renders something on a fresh clone:
+
+![topic words](artifacts/screenshots/topic_words.png)
+
+![coherence vs k](artifacts/screenshots/coherence.png)
+
 ## deployment
 
 The Dockerfile builds a slim image that runs the Streamlit app. For a
