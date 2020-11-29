@@ -112,8 +112,15 @@ docker build -t topic-lda .
 docker run -p 8501:8501 topic-lda
 ```
 
-For Heroku, the included `Dockerfile` works with the container stack;
-`PORT` is read from the environment in `setup.sh`-equivalent entrypoint.
+For Heroku container deploy:
+
+```bash
+heroku stack:set container -a <app-name>
+git push heroku main
+```
+
+`heroku.yml` and `Procfile` are both checked in; the `Dockerfile` reads the
+`$PORT` env var that Heroku sets at runtime.
 
 ## tests
 
