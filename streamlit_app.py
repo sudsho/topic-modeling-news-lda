@@ -24,7 +24,8 @@ def get_model(model_path, dict_path):
 
 
 def main():
-    cfg = load_config("configs/default.yaml")
+    cfg_path = os.environ.get("CONFIG_PATH", "configs/default.yaml")
+    cfg = load_config(cfg_path)
     model_path = cfg["paths"]["model_path"]
     dict_path = cfg["paths"]["dictionary_path"]
 
