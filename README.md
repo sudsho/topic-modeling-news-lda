@@ -1,5 +1,10 @@
 # topic-modeling-news-lda
 
+[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://share.streamlit.io/deploy?repository=sudsho/topic-modeling-news-lda)
+
+> **Try it live**: click the badge above to one-click-deploy on Streamlit Community Cloud. Bundled 20-Newsgroups subset, no API keys needed.
+
+
 LDA topic modeling on the **20 Newsgroups** corpus, with a coherence-driven
 choice of `k`, an interactive **pyLDAvis** page, and a small **Streamlit** app
 for browsing topics and trying the model on new text.
