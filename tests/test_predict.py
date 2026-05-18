@@ -1,4 +1,4 @@
-"""tests for src.predict — uses a tiny LDA model trained inside the test."""
+"""tests for src.predict - uses a tiny LDA model trained inside the test."""
 import pytest
 
 from src.lda import train_lda
